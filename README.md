@@ -1,6 +1,5 @@
 # OrganEase — National Organ Allocation & Viability Tracking Platform
 
-A next-generation, full-stack medical technology web application designed with minimalism, glassmorphism, and clinical precision to streamline emergency organ procurement, real-time cold ischemia viability monitoring, and hospital requisition workflows.
 
 ---
 
@@ -83,7 +82,7 @@ OrganEase follows a decoupled client-server architecture:
 ```
 ┌────────────────────────────────────────────────────────┐
 │               Client Tier (Vercel)                     │
-│  - React 18 SPA with Custom Glassmorphism System       │
+│  - React 22 SPA with Custom Glassmorphism System       │
 │  - Global State Contexts (Auth, Cart, Wishlist, Toast) │
 │  - Live Viability Timers & Responsive Views            │
 └──────────────────────────┬─────────────────────────────┘
@@ -158,10 +157,7 @@ DATABASE=mongodb://127.0.0.1:27017/OrganEase
 # JWT Token Secret
 JWT_SECRET=OrganEase_BioMed_Secure_JWT_Secret_2026
 
-# Optional: Braintree Sandbox Keys (Leave blank to use simulated confirmation mode)
-BRAINTREE_MERCHANT_ID=
-BRAINTREE_PUBLIC_KEY=
-BRAINTREE_PRIVATE_KEY=
+
 ```
 
 ### Frontend Configuration (`frontend/.env`):
