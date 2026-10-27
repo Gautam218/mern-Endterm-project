@@ -134,7 +134,7 @@ export const ProductDetailsPage = () => {
       ? product.pImages.map((img) =>
           img.startsWith("http") ? img : `/uploads/products/${img}`
         )
-      : ["https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"];
+      : (product.image ? [product.image] : ["https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -252,7 +252,7 @@ export const ProductDetailsPage = () => {
                 <span>Verified Allograft Listing #{product._id.slice(-6).toUpperCase()}</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
-                {product.pName}
+                {product.pName || product.name}
               </h1>
 
               <div className="flex items-center gap-2 mt-2 text-xs text-slate-400">
@@ -272,7 +272,7 @@ export const ProductDetailsPage = () => {
               <div>
                 <span className="text-xs text-slate-400 font-medium">Protocol Transfer Token Fee</span>
                 <div className="text-2xl font-bold font-mono text-emerald-400">
-                  ₹{product.pPrice?.toLocaleString("en-IN")}
+                  ₹{(product.pPrice ?? product.price)?.toLocaleString("en-IN")}
                 </div>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -286,7 +286,7 @@ export const ProductDetailsPage = () => {
                 Clinical Overview & Donor Notes
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line">
-                {product.pDescription}
+                {product.pDescription || product.description}
               </p>
             </div>
 

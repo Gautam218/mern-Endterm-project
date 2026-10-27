@@ -26,7 +26,27 @@ class Product {
           .find({})
           .populate("pCategory", "_id cName")
           .sort({ _id: -1 });
-        return res.json({ Products: Products || [] });
+
+        const normalized = (Products || []).map((p) => {
+          const doc = p.toObject ? p.toObject() : { ...p };
+          const imgList = (doc.pImages && doc.pImages.length > 0)
+            ? doc.pImages
+            : (doc.image ? [doc.image] : ["https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"]);
+          return {
+            ...doc,
+            pName: doc.pName || doc.name || "Human Donor Allograft",
+            pDescription: doc.pDescription || doc.description || "Preserved allograft in hypothermic storage.",
+            pPrice: doc.pPrice !== undefined ? doc.pPrice : (doc.price || 45000),
+            pQuantity: doc.pQuantity !== undefined ? doc.pQuantity : (doc.stock || 1),
+            pImages: imgList,
+            pBloodGroup: doc.pBloodGroup || "O+",
+            pColdIschemiaHours: doc.pColdIschemiaHours || 12,
+            pProcurementCenter: doc.pProcurementCenter || "Central Regional Organ Bank",
+            pViableUntil: doc.pViableUntil || new Date(Date.now() + (doc.pColdIschemiaHours || 12) * 3600 * 1000).toISOString(),
+          };
+        });
+
+        return res.json({ Products: normalized });
       } else {
         return res.json({ Products: mockStore.getAllProducts() });
       }
@@ -218,7 +238,24 @@ class Product {
           .populate("pCategory", "_id cName")
           .populate("pRatingsReviews.user", "name email");
         if (singleProduct) {
-          return res.json({ Product: singleProduct });
+          const doc = singleProduct.toObject ? singleProduct.toObject() : { ...singleProduct };
+          const imgList = (doc.pImages && doc.pImages.length > 0)
+            ? doc.pImages
+            : (doc.image ? [doc.image] : ["https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"]);
+          return res.json({
+            Product: {
+              ...doc,
+              pName: doc.pName || doc.name || "Human Donor Allograft",
+              pDescription: doc.pDescription || doc.description || "Preserved allograft in hypothermic storage.",
+              pPrice: doc.pPrice !== undefined ? doc.pPrice : (doc.price || 45000),
+              pQuantity: doc.pQuantity !== undefined ? doc.pQuantity : (doc.stock || 1),
+              pImages: imgList,
+              pBloodGroup: doc.pBloodGroup || "O+",
+              pColdIschemiaHours: doc.pColdIschemiaHours || 12,
+              pProcurementCenter: doc.pProcurementCenter || "Central Regional Organ Bank",
+              pViableUntil: doc.pViableUntil || new Date(Date.now() + (doc.pColdIschemiaHours || 12) * 3600 * 1000).toISOString(),
+            },
+          });
         }
         return res.json({ error: "Organ not found" });
       } else {

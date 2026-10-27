@@ -431,7 +431,7 @@ export const HomePage = () => {
                   ? product.pImages[0].startsWith("http")
                     ? product.pImages[0]
                     : `/uploads/products/${product.pImages[0]}`
-                  : "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80";
+                  : (product.image || "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80");
 
               return (
                 <div
@@ -442,7 +442,7 @@ export const HomePage = () => {
                   <div className="relative h-48 bg-slate-950 overflow-hidden">
                     <img
                       src={img}
-                      alt={product.pName}
+                      alt={product.pName || product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         e.target.src =
@@ -480,11 +480,11 @@ export const HomePage = () => {
                     <div>
                       <Link to={`/products/${product._id}`}>
                         <h4 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
-                          {product.pName}
+                          {product.pName || product.name}
                         </h4>
                       </Link>
                       <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                        {product.pDescription}
+                        {product.pDescription || product.description}
                       </p>
 
                       <div className="mt-3 flex items-center gap-1.5 text-[11px] text-slate-400 truncate">
@@ -504,7 +504,7 @@ export const HomePage = () => {
                       <div>
                         <div className="text-[10px] uppercase font-bold text-slate-400">Token Protocol Fee</div>
                         <div className="text-base font-mono font-bold text-emerald-400">
-                          ₹{product.pPrice?.toLocaleString("en-IN")}
+                          ₹{(product.pPrice ?? product.price)?.toLocaleString("en-IN")}
                         </div>
                       </div>
 
